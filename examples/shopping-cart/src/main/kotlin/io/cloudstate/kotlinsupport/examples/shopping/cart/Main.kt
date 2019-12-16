@@ -23,7 +23,7 @@ class Main {
 
                     descriptor = Shoppingcart.getDescriptor().findServiceByName("ShoppingCart")
                     additionalDescriptors = arrayOf(
-                            com.example.shoppingcart.persistence.Domain.getDescriptor() )
+                            com.example.shoppingcart.persistence.Domain.getDescriptor())
 
                     //snapshotEvery = 1
                     persistenceId = "shopping-cart"

@@ -8,6 +8,7 @@ import io.cloudstate.kotlinsupport.initializers.CloudStateInitializer
 import java.lang.IllegalArgumentException
 
 fun cloudstate(paramsInitializer: CloudStateInitializer.() -> Unit): CloudStateRunner {
+
     val cloudStateInitializer = CloudStateInitializer()
     cloudStateInitializer.paramsInitializer()
 
@@ -23,7 +24,13 @@ fun cloudstate(paramsInitializer: CloudStateInitializer.() -> Unit): CloudStateR
     var system = getActorSystem(conf)
     var materializer = ActorMaterializer.create(system)
 
-    return CloudStateRunner(cloudStateInitializer, system, materializer)
+    val services = cloudStateInitializer.getServices()
+
+    if (services.isEmpty()){
+        throw IllegalStateException("StatefulService must be set")
+    }
+
+    return CloudStateRunner(cloudStateInitializer, services as java.util.HashMap, system, materializer)
 }
 
 private fun getConfig() =
