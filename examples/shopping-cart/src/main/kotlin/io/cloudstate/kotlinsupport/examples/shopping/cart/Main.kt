@@ -1,7 +1,6 @@
 package io.cloudstate.kotlinsupport.examples.shopping.cart
 
 import com.example.shoppingcart.Shoppingcart
-import io.cloudstate.kotlinsupport.EntityType
 import io.cloudstate.kotlinsupport.cloudstate
 import io.cloudstate.kotlinsupport.services.StatefulService
 
