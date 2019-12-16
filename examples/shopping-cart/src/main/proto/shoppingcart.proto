@@ -1,10 +1,10 @@
 // This is the public API offered by the shopping cart entity.
 syntax = "proto3";
 
-import "google/proto/empty.proto";
-import "cloudstate/entity_key.proto";
-
 package com.example.shoppingcart;
+
+import "google/protobuf/empty.proto";
+import "cloudstate/entity_key.proto";
 
 message AddLineItem {
     string user_id = 1 [(.cloudstate.entity_key) = true];

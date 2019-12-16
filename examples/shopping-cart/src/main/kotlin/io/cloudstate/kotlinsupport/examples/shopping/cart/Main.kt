@@ -3,6 +3,7 @@ package io.cloudstate.kotlinsupport.examples.shopping.cart
 import com.example.shoppingcart.Shoppingcart
 import io.cloudstate.kotlinsupport.EntityType
 import io.cloudstate.kotlinsupport.cloudstate
+import io.cloudstate.kotlinsupport.services.StatefulService
 
 class Main {
 
@@ -12,19 +13,43 @@ class Main {
 
             cloudstate {
 
-                type = EntityType.EventSourced
+                serviceName = "shopping-cart"
+                serviceVersion = "1.0.0"
 
-                port = 8090
+                //host = "0.0.0.0"
+                //port = 8088
 
-                eventSourced {
+                registerEventSourcedEntity {
+                    statefulService = ShoppingCartService()
+
                     descriptor = Shoppingcart.getDescriptor().findServiceByName("ShoppingCart")
                     additionalDescriptors = arrayOf(
                             com.example.shoppingcart.persistence.Domain.getDescriptor() )
+
+                    //snapshotEvery = 1
+                    persistenceId = "shopping-cart"
                 }
 
+                // registerCrdtEntity {  }
+
             }.start()
+                .toCompletableFuture()
+                .get()
 
         }
     }
+
+}
+
+
+
+class ShoppingCartService : StatefulService {
+
+    var entityKeyId: String? = null
+
+    override fun getEntityId(): String? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 
 }
