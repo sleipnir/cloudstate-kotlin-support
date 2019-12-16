@@ -32,8 +32,8 @@
 //  Based on original Protocol Buffers design by
 //  Sanjay Ghemawat, Jeff Dean, and others.
 //
-// The messages in this file describe the definitions found in .proto files.
-// A valid .proto file can be translated directly to a FileDescriptorProto
+// The messages in this file describe the definitions found in .protobuf files.
+// A valid .protobuf file can be translated directly to a FileDescriptorProto
 // without any other information (e.g. without reading its imports).
 
 
@@ -48,17 +48,17 @@ option csharp_namespace = "Google.Protobuf.Reflection";
 option objc_class_prefix = "GPB";
 option cc_enable_arenas = true;
 
-// descriptor.proto must be optimized for speed because reflection-based
+// descriptor.protobuf must be optimized for speed because reflection-based
 // algorithms don't work during bootstrapping.
 option optimize_for = SPEED;
 
-// The protocol compiler can output a FileDescriptorSet containing the .proto
+// The protocol compiler can output a FileDescriptorSet containing the .protobuf
 // files it parses.
 message FileDescriptorSet {
     repeated FileDescriptorProto file = 1;
 }
 
-// Describes a complete .proto file.
+// Describes a complete .protobuf file.
 message FileDescriptorProto {
     optional string name = 1;     // file name, relative to root of source tree
     optional string package = 2;  // e.g. "foo", "foo.bar", etc.
@@ -85,7 +85,7 @@ message FileDescriptorProto {
     // development tools.
     optional SourceCodeInfo source_code_info = 9;
 
-    // The syntax of the proto file.
+    // The syntax of the protobuf file.
     // The supported values are "proto2" and "proto3".
     optional string syntax = 12;
 }
@@ -317,22 +317,22 @@ message MethodDescriptorProto {
 
 message FileOptions {
 
-    // Sets the Java package where classes generated from this .proto will be
-    // placed.  By default, the proto package is used, but this is often
-    // inappropriate because proto packages do not normally start with backwards
+    // Sets the Java package where classes generated from this .protobuf will be
+    // placed.  By default, the protobuf package is used, but this is often
+    // inappropriate because protobuf packages do not normally start with backwards
     // domain names.
     optional string java_package = 1;
 
 
-    // If set, all the classes from the .proto file are wrapped in a single
+    // If set, all the classes from the .protobuf file are wrapped in a single
     // outer class with the given name.  This applies to both Proto1
     // (equivalent to the old "--one_java_file" option) and Proto2 (where
-    // a .proto always translates to a single class, but you may want to
+    // a .protobuf always translates to a single class, but you may want to
     // explicitly choose the class name).
     optional string java_outer_classname = 8;
 
     // If set true, then the Java code generator will generate a separate .java
-    // file for each top-level message, enum, and service defined in the .proto
+    // file for each top-level message, enum, and service defined in the .protobuf
     // file.  Thus, these types will *not* be nested inside the outer class
     // named by java_outer_classname.  However, the outer class will still be
     // generated to contain the file's getDescriptor() method as well as any
@@ -360,11 +360,11 @@ message FileOptions {
     }
     optional OptimizeMode optimize_for = 9 [default = SPEED];
 
-    // Sets the Go package where structs generated from this .proto will be
+    // Sets the Go package where structs generated from this .protobuf will be
     // placed. If omitted, the Go package will be derived from the following:
     //   - The basename of the package import path, if provided.
-    //   - Otherwise, the package statement in the .proto file, if present.
-    //   - Otherwise, the basename of the .proto file, without extension.
+    //   - Otherwise, the package statement in the .protobuf file, if present.
+    //   - Otherwise, the basename of the .protobuf file, without extension.
     optional string go_package = 11;
 
 
@@ -391,26 +391,26 @@ message FileOptions {
     // least, this is a formalization for deprecating files.
     optional bool deprecated = 23 [default = false];
 
-    // Enables the use of arenas for the proto messages in this file. This applies
+    // Enables the use of arenas for the protobuf messages in this file. This applies
     // only to generated classes for C++.
     optional bool cc_enable_arenas = 31 [default = false];
 
 
     // Sets the objective c class prefix which is prepended to all objective c
-    // generated classes from this .proto. There is no default.
+    // generated classes from this .protobuf. There is no default.
     optional string objc_class_prefix = 36;
 
     // Namespace for generated classes; defaults to the package.
     optional string csharp_namespace = 37;
 
-    // By default Swift generators will take the proto package and CamelCase it
+    // By default Swift generators will take the protobuf package and CamelCase it
     // replacing '.' with underscore and use that to prefix the types/symbols
     // defined. When this options is provided, they will use this value instead
     // to prefix the types/symbols defined.
     optional string swift_prefix = 39;
 
     // Sets the php class prefix which is prepended to all php generated classes
-    // from this .proto. Default is empty.
+    // from this .protobuf. Default is empty.
     optional string php_class_prefix = 40;
 
     // Use this option to change the namespace of php generated classes. Default
@@ -419,7 +419,7 @@ message FileOptions {
     optional string php_namespace = 41;
 
     // Use this option to change the namespace of php generated metadata classes.
-    // Default is empty. When this option is empty, the proto file name will be
+    // Default is empty. When this option is empty, the protobuf file name will be
     // used for determining the namespace.
     optional string php_metadata_namespace = 44;
 
@@ -490,8 +490,8 @@ message MessageOptions {
     // The reflection APIs in such implementations still need to work as
     // if the field is a repeated message field.
     //
-    // NOTE: Do not set the option in .proto files. Always use the maps syntax
-    // instead. The option should only be implicitly set by the proto compiler
+    // NOTE: Do not set the option in .protobuf files. Always use the maps syntax
+    // instead. The option should only be implicitly set by the protobuf compiler
     // parser.
     optional bool map_entry = 7;
 
@@ -703,7 +703,7 @@ message MethodOptions {
 message UninterpretedOption {
     // The name of the uninterpreted option.  Each string represents a segment in
     // a dot-separated name.  is_extension is true iff a segment represents an
-    // extension (denoted with parentheses in options specs in .proto files).
+    // extension (denoted with parentheses in options specs in .protobuf files).
     // E.g.,{ ["foo", false], ["bar.baz", true], ["qux", false] } represents
     // "foo.(bar.baz).qux".
     message NamePart {
@@ -728,7 +728,7 @@ message UninterpretedOption {
 // Encapsulates information about the original source file from which a
 // FileDescriptorProto was generated.
 message SourceCodeInfo {
-    // A Location identifies a piece of source code in a .proto file which
+    // A Location identifies a piece of source code in a .protobuf file which
     // corresponds to a particular definition.  This information is intended
     // to be useful to IDEs, code indexers, documentation generators, and similar
     // tools.
@@ -860,17 +860,17 @@ message SourceCodeInfo {
 
 // Describes the relationship between generated code and its original source
 // file. A GeneratedCodeInfo message is associated with only one generated
-// source file, but may contain references to different source .proto files.
+// source file, but may contain references to different source .protobuf files.
 message GeneratedCodeInfo {
     // An Annotation connects some span of text in generated code to an element
-    // of its generating .proto file.
+    // of its generating .protobuf file.
     repeated Annotation annotation = 1;
     message Annotation {
-        // Identifies the element in the original source .proto file. This field
+        // Identifies the element in the original source .protobuf file. This field
         // is formatted the same as SourceCodeInfo.Location.path.
         repeated int32 path = 1 [packed = true];
 
-        // Identifies the filesystem path to the original source .proto.
+        // Identifies the filesystem path to the original source .protobuf.
         optional string source_file = 2;
 
         // Identifies the starting offset in bytes in the generated code

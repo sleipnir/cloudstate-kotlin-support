@@ -1,47 +1,35 @@
 package io.cloudstate.kotlinsupport
 
-import com.google.protobuf.Descriptors
+import akka.actor.ActorSystem
+import akka.stream.ActorMaterializer
+import com.typesafe.config.Config
+import com.typesafe.config.ConfigFactory
+import io.cloudstate.kotlinsupport.initializers.CloudStateInitializer
 import java.lang.IllegalArgumentException
-import kotlin.reflect.KClass
 
 fun cloudstate(paramsInitializer: CloudStateInitializer.() -> Unit): CloudStateRunner {
     val cloudStateInitializer = CloudStateInitializer()
     cloudStateInitializer.paramsInitializer()
 
-    val type = cloudStateInitializer.type
+    val type = cloudStateInitializer.eventSourcedInit.type
             ?: throw IllegalArgumentException("type must be set")
 
-    val port = cloudStateInitializer.port
+    val persistenceId = cloudStateInitializer.eventSourcedInit.persistenceId
+            ?: throw IllegalArgumentException("persistenceId must be set")
 
-    val eventSourcedInit = cloudStateInitializer.eventSourcedInit
+    // important to enable HTTP/2 in ActorSystem's config
+    val conf = getConfig()
 
-    /*BlockBuilder
-            .configuration(ConfigurationParameters(jsonResource, remoteFileUrl))
-            .init(context)*/
+    var system = getActorSystem(conf)
+    var materializer = ActorMaterializer.create(system)
 
-    return CloudStateRunner();
+    return CloudStateRunner(cloudStateInitializer, system, materializer)
 }
 
-class CloudStateInitializer {
+private fun getConfig() =
+        ConfigFactory.parseString("akka.http.server.preview.enable-http2 = on")
+        .withFallback(ConfigFactory.defaultApplication()).resolve()
 
-    var type: EntityType? = null
+private fun getActorSystem(conf: Config) =
+        ActorSystem.create("CloudState", conf)
 
-    var port: Int = 8080
-
-    internal var eventSourcedInit = EventSourcedEntityInitializer()
-
-    fun eventSourced(eventSourcedInitializer: EventSourcedEntityInitializer.() -> Unit) {
-        eventSourcedInit.eventSourcedInitializer()
-    }
-
-    class EventSourcedEntityInitializer {
-
-        var entityClass: KClass<Any>? = null
-        var descriptor: Descriptors.ServiceDescriptor? = null
-        var additionalDescriptors: Array<Descriptors.FileDescriptor>? = null
-        var persistenceId: String? = null
-        var snapshotEvery: Int? = null
-    }
-
-
-}
