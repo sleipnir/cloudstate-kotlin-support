@@ -24,6 +24,21 @@ class EventSourcedService(
                                 Logging.WarningLevel(), // onFinish
                                 Logging.DebugLevel() // onFailure
                         ))
+                .map {
+                    if (it.hasInit()) {
+                        return@map it.init
+                    }
+
+                    if (it.hasCommand()) {
+                        return@map it.command
+                    }
+
+                    if (!it.hasEvent()) {
+                    } else {
+                        return@map it.event
+                    }
+
+                }
                 .ask( handler, EventSourcedProto.EventSourcedStreamOut::class.java, Timeout.create(Duration.ofMillis(initializer.functionTimeout)) )!!
 
 }

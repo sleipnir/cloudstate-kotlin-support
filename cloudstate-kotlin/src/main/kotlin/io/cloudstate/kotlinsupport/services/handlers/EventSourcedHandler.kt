@@ -11,31 +11,16 @@ class EventSourcedHandler(val functions: List<CloudStateInitializer.EntityFuncti
 
     override fun createReceive(): Receive =
         receiveBuilder()
-                .match(EventSourcedProto.EventSourcedStreamIn::class.java) {
-
-                    if (it.hasInit()) {
-                        self.tell(it.init, self)
-                    }
-
-                    if (it.hasCommand()) {
-                        self.tell(it.command, self)
-                    }
-
-                    if (it.hasEvent()) {
-                        self.tell(it.event, self)
-                    }
-
-                }
                 .match(EventSourcedProto.EventSourcedInit::class.java) {
-                    log.info("Receive EventSourcedInit {}", it)
+                    log.info("Receive EventSourcedInit \n{}", it)
                     sender.tell(EventSourcedProto.EventSourcedStreamOut.newBuilder().build() ,self)
                 }
                 .match(EventSourcedProto.EventSourcedEvent::class.java) {
-                    log.info("Receive EventSourcedEvent {}", it)
+                    log.info("Receive EventSourcedEvent \n{}", it)
                     sender.tell(EventSourcedProto.EventSourcedStreamOut.newBuilder().build() ,self)
                 }
                 .match(EntityProto.Command::class.java) {
-                    log.info("Receive Command {}", it)
+                    log.info("Receive Command \n{}", it)
                     sender.tell(EventSourcedProto.EventSourcedStreamOut.newBuilder().build() ,self)
                 }
                 .build()
