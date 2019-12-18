@@ -14,7 +14,7 @@ import akka.stream.ActorMaterializer;
 import io.cloudstate.kotlinsupport.initializers.CloudStateInitializer;
 import io.cloudstate.kotlinsupport.protocol.EntityDiscoveryService;
 import io.cloudstate.kotlinsupport.protocol.EventSourcedService;
-import io.cloudstate.kotlinsupport.services.handlers.EventSourcedHandler;
+import io.cloudstate.kotlinsupport.protocol.handlers.EventSourcedHandler;
 import io.cloudstate.protocol.EntityDiscoveryHandlerFactory;
 import io.cloudstate.protocol.EventSourcedHandlerFactory;
 import org.slf4j.Logger;

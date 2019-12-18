@@ -1,4 +1,4 @@
-package io.cloudstate.kotlinsupport.services.handlers
+package io.cloudstate.kotlinsupport.protocol.handlers
 
 import akka.actor.AbstractActor
 import io.cloudstate.kotlinsupport.initializers.CloudStateInitializer

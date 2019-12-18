@@ -85,6 +85,7 @@ class EntityDiscoveryService(
                                     entitySpecBuilder.addEntities(
                                             EntityProto.Entity.newBuilder()
                                                     .setEntityType(item.value.entityType)
+                                                    .setPersistenceId(eventSourcedInitializer.persistenceId)
                                                     .setServiceName(eventSourcedInitializer.descriptor?.fullName)
                                                     .setPersistenceId(eventSourcedInitializer.persistenceId)
                                                     .build())
@@ -98,6 +99,7 @@ class EntityDiscoveryService(
                                     entitySpecBuilder.addEntities(
                                             EntityProto.Entity.newBuilder()
                                                     .setEntityType(item.value.entityType)
+                                                    .setPersistenceId(crdtInitializer.persistenceId)
                                                     .setServiceName(crdtInitializer.descriptor?.fullName)
                                                     .setPersistenceId(crdtInitializer.persistenceId)
                                                     .build())

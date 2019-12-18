@@ -9,7 +9,7 @@
     <version>1.0.1-SNAPSHOT</version>
 
     <properties>
-        <main.class>io.cloudstate.kotlinsupport.examples.shopping.cart.Main</main.class>
+        <main.class>com.example.shoppingcart.Main</main.class>
         <repo.name>sleipnir/shopping-cart</repo.name>
         <tag.version>${project.version}</tag.version>
 
@@ -132,6 +132,7 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <phase>package</phase>
                         <goals>
                             <goal>compile</goal>
                         </goals>
@@ -152,7 +153,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>${main.class}</mainClass>
                     <to>
                         <image>${repo.name}</image>
                         <credHelper></credHelper>
@@ -161,6 +161,7 @@
                         </tags>
                     </to>
                     <container>
+                        <mainClass>${main.class}</mainClass>
                         <jvmFlags>
                             <jvmFlag>-XX:+UseG1GC</jvmFlag>
                             <jvmFlag>-XX:+UseStringDeduplication</jvmFlag>
